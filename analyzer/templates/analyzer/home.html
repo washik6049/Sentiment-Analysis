@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sentiment Analyzer</title>
+  </head>
+  <body>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        color: #333;
+      }
+      button {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+      }
+    </style>
+    <h1>Sentiment Analysis</h1>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Analyze</button>
+    </form>
+    {% if sentiment %}
+    <h2>Sentiment: {{ sentiment }}</h2>
+    {% endif %} {% if form.errors %}
+    <p style="color: red">Please enter valid text.</p>
+    {% endif %}
+  </body>
+</html>

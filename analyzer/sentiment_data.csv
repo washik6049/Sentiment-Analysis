@@ -1,0 +1,11 @@
+text,sentiment
+"I love this movie, it’s amazing!",positive
+"This is the worst experience ever.",negative
+"It’s okay, nothing special.",neutral
+"Fantastic product, highly recommend!",positive
+"Terrible service, very disappointed.",negative
+"bad",negative
+"good",positive
+"awful",negative
+"great",positive
+"meh",neutral
