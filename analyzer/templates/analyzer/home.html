@@ -1,33 +1,157 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentiment Analyzer</title>
-  </head>
-  <body>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-      }
-      h1 {
-        color: #333;
-      }
-      button {
-        padding: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-      }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .header {
+            background: linear-gradient(to right, #007bff, #00c4cc);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+        .header h1 {
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .logo {
+            width: 80px;
+            transition: transform 0.3s;
+        }
+        .logo:hover {
+            transform: scale(1.1);
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        textarea {
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+        button {
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .analyze-again {
+            background-color: #28a745;
+            margin-top: 15px;
+        }
+        .analyze-again:hover {
+            background-color: #218838;
+        }
+        .sentiment-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 18px;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .positive {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .negative {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .neutral {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+        .no-result {
+            color: #777;
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
-    <h1>Sentiment Analysis</h1>
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Analyze</button>
-    </form>
-    {% if sentiment %}
-    <h2>Sentiment: {{ sentiment }}</h2>
-    {% endif %} {% if form.errors %}
-    <p style="color: red">Please enter valid text.</p>
-    {% endif %}
-  </body>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'analyzer/sentiment-logo.png' %}" alt="Sentiment Logo" class="logo">
+        <h1>Sentiment Analysis</h1>
+    </div>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Analyze</button>
+        </form>
+        {% if sentiment %}
+            <div class="sentiment-result {% if sentiment == 'positive' %}positive{% elif sentiment == 'negative' %}negative{% else %}neutral{% endif %}">
+                Sentiment: {{ sentiment|capfirst }}
+            </div>
+            <a href="{% url 'home' %}"><button class="analyze-again">Analyze Again</button></a>
+        {% else %}
+            <p class="no-result">No sentiment predicted yet. Enter text and click "Analyze" to see the result.</p>
+        {% endif %}
+    </div>
+    <div class="footer">
+        &copy; 2025 Sentiment Analyzer | Powered by Washik Wali Faieaz
+    </div>
+</body>
 </html>
